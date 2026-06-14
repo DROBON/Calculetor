@@ -1,0 +1,30 @@
+{
+  "summary": "Frontend-only Expo/React Native calculator app tested end-to-end on mobile viewport (390x844) via web preview. All 15 feature requirements verified across 24 individual assertions — every test PASSED. Basic arithmetic (7+8=15, 6×7=42, 9-4=5, 8/2=4), percent (50+10%=50.1), clear, backspace, sign toggle (5→-5), decimal (0.5), scientific keypad visibility, sin(0)=0, sqrt(9)=3, 2^3=8, 5!=120, π=3.14159265359, mode switching, Bengali numeral toggle (123→১২৩), history panel open/populate/tap-to-restore/clear→empty, and persistence of mode+language across page reload all worked correctly. No backend in this app. Minor non-blocking console warning: 'shadow*' style props are deprecated in react-native-web — should switch to boxShadow (cosmetic, no functional impact).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": [
+      {"component": "history-panel styles (shadow*)", "issue": "react-native-web logs deprecation warning: '\"shadow*\" style props are deprecated. Use \"boxShadow\".' Reference: /app/frontend/app/index.tsx:597-601 (shadowColor, shadowOffset, shadowOpacity, shadowRadius). Cosmetic only on web; native still uses these. Consider Platform.select or migrating to boxShadow for web."}
+    ]
+  },
+  "test_report_links": ["/app/test_reports/iteration_1.json"],
+  "action_items": [
+    "(Optional/Cosmetic) Replace shadow* style props in historyPanel with Platform-aware boxShadow to silence react-native-web deprecation warning.",
+    "No functional fixes required — all 15 specified features work as described."
+  ],
+  "critical_code_review_comments": [
+    "evaluator.ts sanitize() throws 'Bad factorial' inside a while-loop check that can never trigger as written (the inner condition is guarded by the outer while); harmless but dead-ish code.",
+    "evaluator.ts character whitelist regex on line 49 is effectively unused (no throw on failure); the line 52 regex provides the real guard.",
+    "expo-haptics correctly no-ops on web via .catch(() => {}) — good defensive pattern.",
+    "Storage layer (AsyncStorage / web equivalent) successfully persists prefs (mode, lang) across reload — verified."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (no backend)", "frontend": "100% (24/24 assertions passed)"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "App URL: https://mobile-calculator-39.preview.emergentagent.com. All interactive elements have testIDs. Use mobile viewport 390x844. Scientific keypad becomes visible only when seg-mode-sci is selected. History panel uses absolute-positioned overlay with btn-close-history. Bengali numerals appear in display-expression / display-result / history items when lang='bn'. Persistence keys: calc.prefs.v1 (theme/lang/mode) and calc.history.v1.",
+  "rca_of_issue": "N/A — no bugs found."
+}
