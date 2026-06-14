@@ -1,0 +1,100 @@
+{
+  "project_name": "Premium Tactile Calculator App",
+  "theme": "Dark and Light (Toggleable)",
+  "archetype": "Archetype 4 (Swiss & High-Contrast) + Tactile Surfaces",
+  "core_philosophy": "Soft premium utility. Focus on clear typography, thumb-friendly ergonomics, satisfying tactile interactions, and immediate visual feedback.",
+  "typography": {
+    "primary_font": "Manrope",
+    "secondary_font": "IBM Plex Mono",
+    "scale": {
+      "display_main": "text-6xl sm:text-7xl font-light tracking-tight leading-none text-right",
+      "display_equation": "text-2xl sm:text-3xl font-mono text-muted-foreground text-right mb-2",
+      "button_text": "text-3xl font-medium",
+      "button_scientific": "text-lg font-medium",
+      "history_text": "text-xl font-mono",
+      "labels": "text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground"
+    }
+  },
+  "colors": {
+    "light": {
+      "background": "#F8F9FA",
+      "surface": "#FFFFFF",
+      "border": "#E5E7EB",
+      "text_primary": "#0A0A0A",
+      "text_secondary": "#6B7280",
+      "accent": "#4F46E5",
+      "accent_foreground": "#FFFFFF",
+      "button_default": "#F3F4F6",
+      "button_default_active": "#E5E7EB",
+      "button_operator": "#EEF2FF",
+      "button_operator_text": "#4F46E5",
+      "button_special": "#E5E7EB"
+    },
+    "dark": {
+      "background": "#121212",
+      "surface": "#1C1C1E",
+      "border": "#2C2C2E",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#8E8E93",
+      "accent": "#FF9F0A",
+      "accent_foreground": "#FFFFFF",
+      "button_default": "#2C2C2E",
+      "button_default_active": "#3A3A3C",
+      "button_operator": "#3E2A1D",
+      "button_operator_text": "#FF9F0A",
+      "button_special": "#3A3A3C"
+    }
+  },
+  "layout_and_spacing": {
+    "container": "flex flex-col h-full w-full bg-background text-text_primary p-4 sm:p-6",
+    "display_area": "flex-1 flex flex-col justify-end pb-8 min-h-[30vh]",
+    "controls_area": "flex justify-between items-center py-4 mb-4 border-b border-border/30",
+    "keypad_basic": "grid grid-cols-4 gap-3 sm:gap-4",
+    "keypad_scientific": "grid grid-cols-5 gap-2 sm:gap-3 mb-4",
+    "history_panel": "absolute inset-x-0 top-0 h-[65vh] bg-surface/95 backdrop-blur-2xl rounded-b-3xl shadow-2xl p-6 z-50 overflow-y-auto border-b border-border/50",
+    "history_item": "py-4 border-b border-border/20 last:border-0"
+  },
+  "component_rules": {
+    "buttons": {
+      "base": "flex items-center justify-center rounded-full aspect-square touch-manipulation",
+      "zero_button": "col-span-2 aspect-[2/1] rounded-full justify-start pl-8",
+      "tactile_light": "shadow-[0_2px_5px_rgba(0,0,0,0.05),_inset_0_1px_0_rgba(255,255,255,1)] border border-border/50",
+      "tactile_dark": "shadow-[0_4px_10px_rgba(0,0,0,0.2),_inset_0_1px_0_rgba(255,255,255,0.1)] border border-white/5",
+      "interaction": "active:scale-90 active:opacity-80 transition-all duration-75 ease-out",
+      "haptic_feedback": "Require haptic feedback trigger on press (use Expo Haptics)"
+    },
+    "toggles": {
+      "container": "flex p-1 bg-surface rounded-full border border-border/50 shadow-inner",
+      "active_pill": "bg-background shadow-sm rounded-full px-4 py-1.5",
+      "inactive_pill": "px-4 py-1.5 text-text_secondary opacity-70"
+    }
+  },
+  "features": {
+    "language_toggle": {
+      "description": "Switch between English (0-9) and Bengali (০-৯).",
+      "implementation": "Use a global state. Create a utility function `translateNumbers(val, lang)` that maps digits during render for the display and button labels."
+    },
+    "mode_toggle": {
+      "description": "Basic vs Scientific.",
+      "implementation": "Animate the height/opacity of the scientific keypad container using LayoutAnimation or Reanimated when toggled. When scientific is active, it stacks above the basic grid."
+    },
+    "history_panel": {
+      "description": "Slide-down overlay.",
+      "implementation": "Render previous calculations. Tapping a history item sets the current main display to that result."
+    }
+  },
+  "testing": {
+    "attributes": "All interactive elements MUST include data-testid. Examples: data-testid='btn-num-1', data-testid='btn-op-add', data-testid='display-main', data-testid='toggle-lang', data-testid='toggle-theme', data-testid='history-item-0'"
+  },
+  "icons": {
+    "library": "lucide-react-native",
+    "usage": "Use icons for history, backspace, theme toggle (sun/moon), and basic operations if needed (divide, multiply, minus, plus, equals)."
+  },
+  "instructions_to_main_agent": [
+    "Use standard React Native StyleSheet or NativeWind (Tailwind for RN) following the Tailwind class guidelines provided.",
+    "Ensure safe area insets are respected for top (status bar) and bottom (home indicator) using react-native-safe-area-context.",
+    "Implement tactile button feedback using react-native haptics (impactAsync) and React Native Reanimated or Pressable animated styles.",
+    "Ensure text scaling is limited so huge numbers do not break the display area; use adjustsFontSizeToFit on the main Text component.",
+    "Follow the exact Bengali numeral mappings: 0=০, 1=১, 2=২, 3=৩, 4=৪, 5=৫, 6=৬, 7=৭, 8=৮, 9=৯."
+  ]
+}
